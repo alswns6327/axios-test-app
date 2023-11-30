@@ -7,11 +7,18 @@
 <script setup>
 import axios from "axios"
 
-const requestApi = () => {
-  const url = "/api/todolist/gdhong";
-  axios.get(url).then((response) => {
-    console.log("# 응답객체 : ", response);
-  });
+const listUrl = "/api/todolist_long/gdhong";
+const todoUrlPrefix = "/api/todolist_long/gdhong/";
+
+const requestApi = async () => {
+  let todoList = [];
+  const response = await axios.get(listUrl);
+  todoList = response.data;
+  console.log('# TodoList : ', todoList);
+  let todo = await axios.get(todoUrlPrefix+todoList[0].id).data;
+  console.log("## 첫번째 Todo", todo);
+  todo = await axios.get(todoUrlPrefix+todoList[1].id).data;
+  console.log("## 두번째 Todo", todo);
 }
 
 requestApi();
