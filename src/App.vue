@@ -12,13 +12,24 @@ const todoUrlPrefix = "/api/todolist_long/gdhong/";
 
 const requestApi = async () => {
   let todoList = [];
-  const response = await axios.get(listUrl);
-  todoList = response.data;
-  console.log('# TodoList : ', todoList);
-  let todo = await axios.get(todoUrlPrefix+todoList[0].id).data;
-  console.log("## 첫번째 Todo", todo);
-  todo = await axios.get(todoUrlPrefix+todoList[1].id).data;
-  console.log("## 두번째 Todo", todo);
+
+  try{
+    let response = await axios.get(listUrl);
+    todoList = response.data;
+    for(let todo of todoList){
+      response = await axios.get(todoUrlPrefix+todo.id)
+      console.log(`## ${todo.id} `, response.data);
+    }
+    let data = {todo : "test insert todo", desc : "test insert todo desc"};
+    response = await axios.post(listUrl, data);
+
+    console.log('post insert');
+    console.log(response);
+  }catch(e){
+    if(e instanceof Error){
+      console.log(e);
+    }
+  }
 }
 
 requestApi();
