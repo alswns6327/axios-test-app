@@ -14,7 +14,7 @@ const requestApi = async () => {
   let todoList = [];
 
   try{
-    let response = await axios.get(listUrl);
+    let response = await axios.get(listUrl, {timeout : 900});
     todoList = response.data;
     for(let todo of todoList){
       response = await axios.get(todoUrlPrefix+todo.id)
@@ -26,9 +26,9 @@ const requestApi = async () => {
     console.log('post insert');
     console.log(response);
   }catch(e){
-    if(e instanceof Error){
-      console.log(e);
-    }
+    console.log(e instanceof Error)
+    if(e instanceof Error)console.log(e.message);
+    else console.log(e);
   }
 }
 
